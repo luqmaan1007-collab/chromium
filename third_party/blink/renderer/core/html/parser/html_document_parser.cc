@@ -1390,7 +1390,12 @@ void HTMLDocumentParser::AppendBytes(base::span<const uint8_t> data) {
   if (data.empty() || IsStopped()) {
     return;
   }
-
+if (url.MatchesExtension(".corex")) {
+    CorexDocumentParser parser(*document);
+    parser.LoadSyntaxMap("/absolute/path/to/syntax_map_clean.txt");
+    parser.Parse(file_content);
+    return;  // stop normal HTML parsing
+}
   DecodedDataDocumentParser::AppendBytes(data);
 }
 
